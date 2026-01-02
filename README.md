@@ -152,27 +152,3 @@ Arpit Bhojani - Python Developer
 📱 Phone: +91 7383181094
 
 <div align="center"> <sub>Built with ❤️ and Django.</sub> </div>
-
-## 📂 Project Structure
-
-<details>
-<summary>Click to expand file tree</summary>
-
-```text
-sms_project/
-├── students/            # Student Profiles & Enrollment
-│   ├── models.py
-│   ├── views.py
-│   └── templates/
-├── academics/           # Courses, Attendance, Results
-│   ├── models.py
-│   └── views.py
-├── finance/             # Fee Management (Optional)
-│   ├── models.py
-│   └── views.py
-├── core/                # Dashboard & Authentication
-│   ├── views.py
-│   └── templates/
-├── manage.py
-└── requirements.txt
-</details>
