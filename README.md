@@ -1,4 +1,4 @@
-# 🎓 Django Student Management System (SMS)
+#  Django Student Management System (SMS)
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)
 ![Django](https://img.shields.io/badge/Django-4.2%2B-092E20?style=for-the-badge&logo=django)
@@ -9,7 +9,7 @@
 
 
 
-## 📋 Overview
+##  Overview
 
 The **Student Management System** is a comprehensive web application designed to digitize the administrative operations of a school or college. It replaces manual paperwork with a secure, digital database, allowing administrators to track student lifecycles from enrollment to graduation.
 
@@ -17,7 +17,7 @@ This project demonstrates skills in **relational database modeling**, **data vis
 
 ---
 
-## 🏛️ Architecture: The Data Hierarchy
+##  Architecture: The Data Hierarchy
 
 The system organizes data into three logical tiers to ensure data integrity and easy retrieval.
 
@@ -31,26 +31,26 @@ The system organizes data into three logical tiers to ensure data integrity and 
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
-### 👨‍🎓 Student Module
+### Student Module
 * **Digital Profiles:** Complete records including bio-data, contact info, and guardian details.
 * **Enrollment History:** Track current class, section, and roll number.
 * **Document Locker:** Upload and store digital copies of certificates/ID proofs.
 
-### 📚 Academic Module
+### Academic Module
 * **Course Management:** Add subjects, assign teachers, and manage syllabi.
 * **Attendance Tracking:** Daily attendance marking with monthly summary reports.
 * **Result Processing:** Auto-calculate GPAs/Percentages based on exam scores.
 
-### 📊 Administrative Dashboard
+### Administrative Dashboard
 * **Live Stats:** View total student count, teacher count, and daily attendance at a glance.
 * **Fee Management:** Track paid/unpaid fees and generate invoices.
 * **Search:** Instant lookup for any student record by Roll Number or Name.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Domain | Technologies Used |
 | :--- | :--- |
@@ -60,8 +60,7 @@ The system organizes data into three logical tiers to ensure data integrity and 
 | **Export** | ReportLab (PDF Generation for Results) |
 
 ---
-
-## 🚀 Quick Start Guide
+###  Quick Start Guide
 
 ### Prerequisites
 * Python 3.8+
@@ -111,7 +110,7 @@ The system organizes data into three logical tiers to ensure data integrity and 
 ---
 
 
-🎮 Usage Guide
+ Usage Guide
 1. Enrolling a New Student
 Login as Admin.
 
@@ -137,18 +136,16 @@ Enter marks for specific subjects.
 
 Click "Generate Report Card" to view the calculated GPA/Percentage.
 
-🛡️ Security & Best Practices
+ Security & Best Practices
 Data Privacy: Sensitive student data is protected behind login decorators.
 
 Role-Based Views: Teachers can only mark attendance; only Admins can delete student records.
 
 Input Validation: Prevents invalid data entry (e.g., negative marks or future dates for birth).
 
-📞 Contact & Author
+Contact & Author
 Arpit Bhojani - Python Developer
 
-📧 Email: bhojaniarpit1432@gmail.com
+📧 Email: arpitbhojani.contact@gmail.com
 
-📱 Phone: +91 7383181094
-
-<div align="center"> <sub>Built with ❤️ and Django.</sub> </div>
+ align="center"> <sub>Built with ❤️ and Django.</sub> </div>
