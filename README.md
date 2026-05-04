@@ -1,4 +1,4 @@
-#  Django Student Management System (SMS)
+#  CampusNexus
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)
 ![Django](https://img.shields.io/badge/Django-4.2%2B-092E20?style=for-the-badge&logo=django)
