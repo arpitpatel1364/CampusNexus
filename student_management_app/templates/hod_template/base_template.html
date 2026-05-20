@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CampusNexus | Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  {% block custom_css %}{% endblock custom_css %}
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- Sidebar -->
+    {% include 'hod_template/sidebar_template.html' with user=user %}
+
+    <!-- Main Content Panel -->
+    <div class="app-content">
+      <header class="app-header">
+        <div class="header-title-section">
+          <button class="sidebar-toggle-btn" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1 class="header-title">
+            {% block page_title %}{% endblock page_title %}
+          </h1>
+        </div>
+        <div class="header-actions">
+          <a href="{% url 'admin_profile' %}" class="action-btn" title="Profile">
+            <i class="fas fa-user-circle"></i>
+          </a>
+          <a href="{% url 'logout_user' %}" class="action-btn" title="Logout" style="color: #ef4444;">
+            <i class="fas fa-power-off"></i>
+          </a>
+        </div>
+      </header>
+
+      <main class="content-body">
+        {% block main_content %}{% endblock main_content %}
+      </main>
+    </div>
+  </div>
+
+  <!-- jQuery & basic interactions -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#sidebarToggle').click(function(e) {
+        e.stopPropagation();
+        $('#sidebar').toggleClass('active');
+      });
+      $(document).click(function(e) {
+        if (!$(e.target).closest('#sidebar').length && $('#sidebar').hasClass('active')) {
+          $('#sidebar').removeClass('active');
+        }
+      });
+    });
+  </script>
+  {% block custom_js %}{% endblock custom_js %}
+</body>
+</html>

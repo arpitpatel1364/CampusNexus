@@ -35,7 +35,7 @@ MEDIA_ROOT=os.path.join(BASE_DIR,"media")
 STATIC_URL="/static/"
 STATIC_ROOT=os.path.join(BASE_DIR,"static")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -152,5 +152,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #     # `allauth` specific authentication methods, such as login by e-mail
 #    'student_management_app.EmailBackEnd.EmailBackEnd'
 # )
-# AUTHENTICATION_BACKENDS = ['student_management_app.EmailBackEnd.EmailBackEnd']
-#
+AUTHENTICATION_BACKENDS = ['student_management_app.EmailBackEnd.EmailBackEnd']

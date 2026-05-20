@@ -1,0 +1,61 @@
+{% load static %}
+<div class="app-sidebar" id="sidebar">
+    <div class="brand-section">
+        <div class="brand-logo">
+            <i class="fas fa-graduation-cap"></i>
+        </div>
+        <span class="brand-name">CampusNexus</span>
+    </div>
+    
+    <div class="user-profile-section">
+        <div class="user-avatar">
+            {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}
+        </div>
+        <div class="user-details">
+            <span class="user-name">{{ user.first_name }} {{ user.last_name }}</span>
+            <span class="user-role">Student</span>
+        </div>
+    </div>
+    
+    <ul class="sidebar-menu">
+        {% url 'student_home' as student_home_url %}
+        <li class="{% if request.path == student_home_url %}active{% endif %}">
+            <a href="{{ student_home_url }}">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+        </li>
+        
+        {% url 'student_view_attendance' as student_view_attendance_url %}
+        <li class="{% if request.path == student_view_attendance_url %}active{% endif %}">
+            <a href="{{ student_view_attendance_url }}">
+                <i class="fas fa-calendar-check"></i>
+                <span>View Attendance</span>
+            </a>
+        </li>
+        
+        {% url 'student_view_result' as student_view_result_url %}
+        <li class="{% if request.path == student_view_result_url %}active{% endif %}">
+            <a href="{{ student_view_result_url }}">
+                <i class="fas fa-chart-bar"></i>
+                <span>View Result</span>
+            </a>
+        </li>
+        
+        {% url 'student_apply_leave' as student_apply_leave_url %}
+        <li class="{% if request.path == student_apply_leave_url %}active{% endif %}">
+            <a href="{{ student_apply_leave_url }}">
+                <i class="fas fa-file-alt"></i>
+                <span>Apply for Leave</span>
+            </a>
+        </li>
+        
+        {% url 'student_feedback' as student_feedback_url %}
+        <li class="{% if request.path == student_feedback_url %}active{% endif %}">
+            <a href="{{ student_feedback_url }}">
+                <i class="fas fa-comment-dots"></i>
+                <span>Send Feedback</span>
+            </a>
+        </li>
+    </ul>
+</div>

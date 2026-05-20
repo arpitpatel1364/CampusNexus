@@ -1,0 +1,173 @@
+{% extends 'staff_template/base_template.html' %}
+
+{% block page_title %}
+Staff Home
+{% endblock page_title %}
+
+{% block main_content %}
+{% load static %}
+
+<!-- Stats Cards Grid -->
+<div class="stats-grid" style="padding: 1.5rem 0;">
+    <!-- Stat 1 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ students_count }}</span>
+            <span class="stat-label">Students Under Me</span>
+        </div>
+        <div class="stat-icon-wrapper bg-accent-light">
+            <i class="fas fa-users"></i>
+        </div>
+    </div>
+
+    <!-- Stat 2 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ attendance_count }}</span>
+            <span class="stat-label">Attendance Sessions</span>
+        </div>
+        <div class="stat-icon-wrapper bg-success-light">
+            <i class="fas fa-calendar-check"></i>
+        </div>
+    </div>
+
+    <!-- Stat 3 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ leave_count }}</span>
+            <span class="stat-label">Leaves Taken</span>
+        </div>
+        <div class="stat-icon-wrapper bg-warning-light">
+            <i class="fas fa-clock"></i>
+        </div>
+    </div>
+
+    <!-- Stat 4 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ subject_count }}</span>
+            <span class="stat-label">Total Subjects</span>
+        </div>
+        <div class="stat-icon-wrapper bg-danger-light">
+            <i class="fas fa-book-open"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section Row 1 -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+    <!-- Leave status chart -->
+    <div class="modern-card">
+        <div class="card-header-modern">
+            <h3 class="card-title-modern">Activity vs Leaves Breakdown</h3>
+        </div>
+        <div class="card-body-modern" style="display: flex; justify-content: center; align-items: center; min-height: 280px;">
+            <div style="width: 100%; max-width: 250px;">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subjects Attend Chart -->
+    <div class="modern-card">
+        <div class="card-header-modern">
+            <h3 class="card-title-modern">Attendance sessions per Subject</h3>
+        </div>
+        <div class="card-body-modern" style="min-height: 280px;">
+            <canvas id="barChart" style="width: 100%; height: 260px;"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section Row 2 -->
+<div class="modern-card" style="margin-bottom: 1.5rem;">
+    <div class="card-header-modern">
+        <h3 class="card-title-modern">Student Attendance Records</h3>
+    </div>
+    <div class="card-body-modern" style="min-height: 300px;">
+        <canvas id="barChart2" style="width: 100%; height: 280px;"></canvas>
+    </div>
+</div>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(document).ready(function(){
+        // Pie Chart
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Leaves Taken', 'Sessions Held'],
+                datasets: [{
+                    data: [{{ leave_count }}, {{ attendance_count }}],
+                    backgroundColor: ['#ef4444', '#10b981'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // Subjects Bar Chart
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: {{ subject_list|safe }},
+                datasets: [{
+                    label: 'Sessions',
+                    data: {{ attendance_list }},
+                    backgroundColor: '#4f46e5',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // Student Attendance present/absent Bar Chart
+        const barCtx2 = document.getElementById('barChart2').getContext('2d');
+        new Chart(barCtx2, {
+            type: 'bar',
+            data: {
+                labels: {{ student_list|safe }},
+                datasets: [
+                    {
+                        label: 'Present',
+                        data: {{ attendance_present_list }},
+                        backgroundColor: '#10b981',
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Absent',
+                        data: {{ attendance_absent_list }},
+                        backgroundColor: '#cbd5e1',
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    });
+</script>
+{% endblock custom_js %}

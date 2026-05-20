@@ -1,0 +1,114 @@
+{% load static %}
+<div class="app-sidebar" id="sidebar">
+    <div class="brand-section">
+        <div class="brand-logo">
+            <i class="fas fa-graduation-cap"></i>
+        </div>
+        <span class="brand-name">CampusNexus</span>
+    </div>
+    
+    <div class="user-profile-section">
+        <div class="user-avatar">
+            {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}
+        </div>
+        <div class="user-details">
+            <span class="user-name">{{ user.first_name }} {{ user.last_name }}</span>
+            <span class="user-role">HOD / Admin</span>
+        </div>
+    </div>
+    
+    <ul class="sidebar-menu" style="overflow-y: auto; max-height: calc(100vh - 160px);">
+        {% url 'admin_home' as admin_home_url %}
+        <li class="{% if request.path == admin_home_url %}active{% endif %}">
+            <a href="{{ admin_home_url }}">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+        </li>
+        
+        {% url 'manage_staff' as manage_staff_url %}
+        {% url 'add_staff' as add_staff_url %}
+        <li class="{% if request.path == manage_staff_url or request.path == add_staff_url %}active{% endif %}">
+            <a href="{{ manage_staff_url }}">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Manage Staff</span>
+            </a>
+        </li>
+        
+        {% url 'manage_student' as manage_student_url %}
+        {% url 'add_student' as add_student_url %}
+        <li class="{% if request.path == manage_student_url or request.path == add_student_url %}active{% endif %}">
+            <a href="{{ manage_student_url }}">
+                <i class="fas fa-user-graduate"></i>
+                <span>Manage Students</span>
+            </a>
+        </li>
+        
+        {% url 'manage_course' as manage_course_url %}
+        {% url 'add_course' as add_course_url %}
+        <li class="{% if request.path == manage_course_url or request.path == add_course_url %}active{% endif %}">
+            <a href="{{ manage_course_url }}">
+                <i class="fas fa-scroll"></i>
+                <span>Manage Courses</span>
+            </a>
+        </li>
+        
+        {% url 'manage_subject' as manage_subject_url %}
+        {% url 'add_subject' as add_subject_url %}
+        <li class="{% if request.path == manage_subject_url or request.path == add_subject_url %}active{% endif %}">
+            <a href="{{ manage_subject_url }}">
+                <i class="fas fa-book"></i>
+                <span>Manage Subjects</span>
+            </a>
+        </li>
+        
+        {% url 'manage_session' as manage_session_url %}
+        {% url 'add_session' as add_session_url %}
+        <li class="{% if request.path == manage_session_url or request.path == add_session_url %}active{% endif %}">
+            <a href="{{ manage_session_url }}">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Sessions</span>
+            </a>
+        </li>
+        
+        {% url 'admin_view_attendance' as admin_view_attendance_url %}
+        <li class="{% if request.path == admin_view_attendance_url %}active{% endif %}">
+            <a href="{{ admin_view_attendance_url }}">
+                <i class="fas fa-calendar-check"></i>
+                <span>View Attendance</span>
+            </a>
+        </li>
+        
+        {% url 'student_feedback_message' as student_feedback_message_url %}
+        <li class="{% if request.path == student_feedback_message_url %}active{% endif %}">
+            <a href="{{ student_feedback_message_url }}">
+                <i class="fas fa-comment-alt"></i>
+                <span>Student Feedback</span>
+            </a>
+        </li>
+        
+        {% url 'staff_feedback_message' as staff_feedback_message_url %}
+        <li class="{% if request.path == staff_feedback_message_url %}active{% endif %}">
+            <a href="{{ staff_feedback_message_url }}">
+                <i class="fas fa-comments"></i>
+                <span>Staff Feedback</span>
+            </a>
+        </li>
+        
+        {% url 'student_leave_view' as student_leave_view_url %}
+        <li class="{% if request.path == student_leave_view_url %}active{% endif %}">
+            <a href="{{ student_leave_view_url }}">
+                <i class="fas fa-envelope-open-text"></i>
+                <span>Student Leaves</span>
+            </a>
+        </li>
+        
+        {% url 'staff_leave_view' as staff_leave_view_url %}
+        <li class="{% if request.path == staff_leave_view_url %}active{% endif %}">
+            <a href="{{ staff_leave_view_url }}">
+                <i class="fas fa-envelope-open"></i>
+                <span>Staff Leaves</span>
+            </a>
+        </li>
+    </ul>
+</div>

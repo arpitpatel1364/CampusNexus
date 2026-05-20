@@ -1,0 +1,86 @@
+/* Responsive styling adjustments for CampusNexus Mobile/Tablet view */
+
+@media (max-width: 991.98px) {
+    /* Side navigation drawer adjustments */
+    .main-sidebar {
+        transform: translate3d(-250px, 0, 0);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    .sidebar-open .main-sidebar {
+        transform: translate3d(0, 0, 0);
+    }
+
+    /* Content wrapper shifts */
+    .content-wrapper,
+    .main-footer,
+    .main-header {
+        margin-left: 0 !important;
+    }
+
+    /* Typography scale for smaller screens */
+    h1, .h1 {
+        font-size: 1.8rem;
+    }
+    h2, .h2 {
+        font-size: 1.5rem;
+    }
+    h3, .h3 {
+        font-size: 1.3rem;
+    }
+
+    /* Form rows adjustments */
+    .form-group.row .col-sm-2,
+    .form-group.row .col-sm-10 {
+        width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Padding adjustments */
+    .content {
+        padding: 0.5rem !important;
+    }
+
+    .card-body {
+        padding: 1rem !important;
+    }
+
+    /* Stack tables horizontally on small screens */
+    .table-responsive-sm {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Hide unnecessary large elements or icons */
+    .small-box .icon {
+        display: none;
+    }
+
+    /* Charts scaling helper */
+    canvas {
+        max-height: 200px !important;
+    }
+}
+
+@media (max-width: 575.98px) {
+    /* Extra small screens adjustments */
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    /* Message alerts width */
+    .alert {
+        padding: 0.75rem;
+        font-size: 0.85rem;
+    }
+}

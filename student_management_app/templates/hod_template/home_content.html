@@ -1,0 +1,287 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+Home Dashboard
+{% endblock page_title %}
+
+{% block main_content %}
+{% load static %}
+
+<!-- Stats Cards Grid -->
+<div class="stats-grid" style="padding: 1.5rem 0;">
+    <!-- Stat 1 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ all_student_count }}</span>
+            <span class="stat-label">Total Students</span>
+        </div>
+        <div class="stat-icon-wrapper bg-accent-light">
+            <i class="fas fa-user-graduate"></i>
+        </div>
+    </div>
+
+    <!-- Stat 2 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ staff_count }}</span>
+            <span class="stat-label">Total Staff</span>
+        </div>
+        <div class="stat-icon-wrapper bg-danger-light">
+            <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+    </div>
+
+    <!-- Stat 3 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ course_count }}</span>
+            <span class="stat-label">Total Courses</span>
+        </div>
+        <div class="stat-icon-wrapper bg-warning-light">
+            <i class="fas fa-scroll"></i>
+        </div>
+    </div>
+
+    <!-- Stat 4 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ subject_count }}</span>
+            <span class="stat-label">Total Subjects</span>
+        </div>
+        <div class="stat-icon-wrapper bg-success-light">
+            <i class="fas fa-book"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row 1 -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+    <!-- Chart Card 1 -->
+    <div class="modern-card">
+        <div class="card-header-modern">
+            <h3 class="card-title-modern">Student vs Staff Breakdown</h3>
+        </div>
+        <div class="card-body-modern" style="display: flex; justify-content: center; align-items: center; min-height: 280px;">
+            <div style="width: 100%; max-width: 250px;">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Card 2 -->
+    <div class="modern-card">
+        <div class="card-header-modern">
+            <h3 class="card-title-modern">Subjects per Course</h3>
+        </div>
+        <div class="card-body-modern" style="display: flex; justify-content: center; align-items: center; min-height: 280px;">
+            <div style="width: 100%; max-width: 250px;">
+                <canvas id="donutChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Row 2 -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+    <!-- Chart Card 3 -->
+    <div class="modern-card">
+        <div class="card-header-modern">
+            <h3 class="card-title-modern">Students Enrolled per Course</h3>
+        </div>
+        <div class="card-body-modern" style="display: flex; justify-content: center; align-items: center; min-height: 280px;">
+            <div style="width: 100%; max-width: 250px;">
+                <canvas id="pieChart2"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Card 4 -->
+    <div class="modern-card">
+        <div class="card-header-modern">
+            <h3 class="card-title-modern">Students Enrolled per Subject</h3>
+        </div>
+        <div class="card-body-modern" style="display: flex; justify-content: center; align-items: center; min-height: 280px;">
+            <div style="width: 100%; max-width: 250px;">
+                <canvas id="pieChart3"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Attendance vs Leaves Staff -->
+<div class="modern-card" style="margin-bottom: 1.5rem;">
+    <div class="card-header-modern">
+        <h3 class="card-title-modern">Staff Attendance vs Leaves</h3>
+    </div>
+    <div class="card-body-modern" style="min-height: 300px;">
+        <canvas id="barChart" style="width: 100%; height: 280px;"></canvas>
+    </div>
+</div>
+
+<!-- Attendance vs Leaves Student -->
+<div class="modern-card" style="margin-bottom: 1.5rem;">
+    <div class="card-header-modern">
+        <h3 class="card-title-modern">Student Attendance vs Leaves</h3>
+    </div>
+    <div class="card-body-modern" style="min-height: 300px;">
+        <canvas id="barChart2" style="width: 100%; height: 280px;"></canvas>
+    </div>
+</div>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(document).ready(function(){
+        // Chart colors helper
+        const chartColors = [
+            '#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#3b82f6', 
+            '#8b5cf6', '#ec4899', '#14b8a6', '#f97316', '#6366f1',
+            '#06b6d4', '#84cc16', '#a855f7', '#f43f5e', '#10b981'
+        ];
+
+        // 1. Student vs Staff Pie Chart
+        const ctx1 = document.getElementById('pieChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'pie',
+            data: {
+                labels: ['Students', 'Staff'],
+                datasets: [{
+                    data: [{{ all_student_count }}, {{ staff_count }}],
+                    backgroundColor: ['#4f46e5', '#ef4444'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 2. Subjects per Course Donut Chart
+        const ctx2 = document.getElementById('donutChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: {{ course_name_list|safe }},
+                datasets: [{
+                    data: {{ subject_count_list }},
+                    backgroundColor: chartColors,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 3. Students per Course Pie Chart
+        const ctx3 = document.getElementById('pieChart2').getContext('2d');
+        new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                labels: {{ course_name_list|safe }},
+                datasets: [{
+                    data: {{ student_count_list_in_course }},
+                    backgroundColor: chartColors,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 4. Students per Subject Pie Chart
+        const ctx4 = document.getElementById('pieChart3').getContext('2d');
+        new Chart(ctx4, {
+            type: 'pie',
+            data: {
+                labels: {{ subject_list|safe }},
+                datasets: [{
+                    data: {{ student_count_list_in_subject }},
+                    backgroundColor: chartColors,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // 5. Staff Attendance vs Leaves Bar Chart
+        const ctx5 = document.getElementById('barChart').getContext('2d');
+        new Chart(ctx5, {
+            type: 'bar',
+            data: {
+                labels: {{ staff_name_list|safe }},
+                datasets: [
+                    {
+                        label: 'Present',
+                        data: {{ staff_attendance_present_list }},
+                        backgroundColor: '#10b981',
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Leave',
+                        data: {{ staff_attendance_leave_list }},
+                        backgroundColor: '#ef4444',
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 6. Student Attendance vs Leaves Bar Chart
+        const ctx6 = document.getElementById('barChart2').getContext('2d');
+        new Chart(ctx6, {
+            type: 'bar',
+            data: {
+                labels: {{ student_name_list|safe }},
+                datasets: [
+                    {
+                        label: 'Present',
+                        data: {{ student_attendance_present_list }},
+                        backgroundColor: '#4f46e5',
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Leave',
+                        data: {{ student_attendance_leave_list }},
+                        backgroundColor: '#ef4444',
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    });
+</script>
+{% endblock custom_js %}

@@ -1,0 +1,175 @@
+{% extends 'student_template/base_template.html' %}
+
+{% block page_title %}
+Student Home
+{% endblock page_title %}
+
+{% block main_content %}
+{% load static %}
+
+{% if no_course %}
+<div class="modern-card" style="border-left: 4px solid #f59e0b; margin-top: 1rem;">
+    <div class="card-body-modern" style="display: flex; align-items: center; gap: 1rem;">
+        <div style="font-size: 1.5rem; color: #f59e0b;">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div>
+            <h4 style="margin: 0 0 0.25rem 0; font-size: 1rem; font-weight: 600;">Course Enrollment Pending</h4>
+            <p style="margin: 0; font-size: 0.875rem; color: var(--text-muted);">You have not been assigned to any course yet. Please contact the administrator to enroll you in a course.</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Stats Cards Grid -->
+<div class="stats-grid" style="padding: 1.5rem 0;">
+    <!-- Stat 1 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ total_attendance }}</span>
+            <span class="stat-label">Total Attendance</span>
+        </div>
+        <div class="stat-icon-wrapper bg-accent-light">
+            <i class="fas fa-calendar-alt"></i>
+        </div>
+    </div>
+
+    <!-- Stat 2 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ attendance_absent }}</span>
+            <span class="stat-label">Absent Days</span>
+        </div>
+        <div class="stat-icon-wrapper bg-danger-light">
+            <i class="fas fa-user-times"></i>
+        </div>
+    </div>
+
+    <!-- Stat 3 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ attendance_present }}</span>
+            <span class="stat-label">Present Days</span>
+        </div>
+        <div class="stat-icon-wrapper bg-success-light">
+            <i class="fas fa-user-check"></i>
+        </div>
+    </div>
+
+    <!-- Stat 4 -->
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-value">{{ total_subjects }}</span>
+            <span class="stat-label">Total Subjects</span>
+        </div>
+        <div class="stat-icon-wrapper bg-warning-light">
+            <i class="fas fa-book-open"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section Grid -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+    <!-- Pie Chart Card -->
+    <div class="modern-card">
+        <div class="card-header-modern">
+            <h3 class="card-title-modern">Total Attendance Breakdown</h3>
+        </div>
+        <div class="card-body-modern" style="display: flex; justify-content: center; align-items: center; min-height: 280px;">
+            <div style="width: 100%; max-width: 260px;">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bar Chart Card -->
+    <div class="modern-card">
+        <div class="card-header-modern">
+            <h3 class="card-title-modern">Subject-wise Attendance</h3>
+        </div>
+        <div class="card-body-modern" style="min-height: 280px;">
+            <canvas id="barChart" style="width: 100%; height: 260px;"></canvas>
+        </div>
+    </div>
+</div>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+<!-- CDN Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    $(document).ready(function(){
+        // Pie Chart
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Absent', 'Present'],
+                datasets: [{
+                    data: [{{ attendance_absent }}, {{ attendance_present }}],
+                    backgroundColor: ['#ef4444', '#10b981'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Bar Chart
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        const subjects = {{ subject_name|safe }};
+        const dataPresent = {{ data_present }};
+        const dataAbsent = {{ data_absent }};
+
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: subjects,
+                datasets: [
+                    {
+                        label: 'Present',
+                        data: dataPresent,
+                        backgroundColor: '#4f46e5',
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Absent',
+                        data: dataAbsent,
+                        backgroundColor: '#cbd5e1',
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f1f5f9'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock custom_js %}
